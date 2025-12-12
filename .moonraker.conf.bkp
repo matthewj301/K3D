@@ -29,12 +29,12 @@ cors_domains =
 [file_manager]
 enable_object_processing = True
 
-[update_manager klipper]
-report_anomalies = False
-
 [update_manager]
 channel = dev
 refresh_interval = 168
+
+[update_manager klipper]
+report_anomalies = False
 
 [update_manager Klipper-Adaptive-Meshing-Purging]
 type = git_repo
