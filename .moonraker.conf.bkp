@@ -29,13 +29,6 @@ cors_domains =
 [file_manager]
 enable_object_processing = True
 
-[update_manager]
-channel = dev
-refresh_interval = 168
-
-[update_manager klipper]
-report_anomalies = False
-
 [update_manager Klipper-Adaptive-Meshing-Purging]
 type = git_repo
 channel = dev
@@ -46,7 +39,7 @@ primary_branch = main
 
 [update_manager DynamicMacros]
 type = git_repo
-path = /home/pi/addon-packages/DynamicMacros
+path = /home/pi/DynamicMacros
 origin = https://github.com/3DCoded/DynamicMacros.git
 primary_branch = main
 is_system_service = False
