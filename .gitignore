@@ -7,3 +7,4 @@ sensorless-homing-y-*
 custom/.DS_Store
 custom/k3/.DS_Store
 custom/k3/steppers/.DS_Store
+.DS_Store
