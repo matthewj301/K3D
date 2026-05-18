@@ -41,10 +41,10 @@ for cycle in range(max_cycles):
         respond_info(f"Chamber reached {round(chamber_target, 1)}C - mixing complete")
         RETURN
 
-    x_min = printer["toolhead"]["axis_minimum"]["x"]
-    x_max = printer["toolhead"]["axis_maximum"]["x"]
-    y_min = printer["toolhead"]["axis_minimum"]["y"]
-    y_max = printer["toolhead"]["axis_maximum"]["y"]
+    x_min = printer["toolhead"]["axis_minimum"][0]
+    x_max = printer["toolhead"]["axis_maximum"][0]
+    y_min = printer["toolhead"]["axis_minimum"][1]
+    y_max = printer["toolhead"]["axis_maximum"][1]
     bed_avg = ((x_max - x_min) + (y_max - y_min)) / 2.0
 
     if bed_avg >= 400:
@@ -66,8 +66,8 @@ for cycle in range(max_cycles):
     cy = (y_min + y_max) / 2.0
 
     z_req = float(vars["chamber_printhead_height"])
-    z_lo = printer["toolhead"]["axis_minimum"]["z"] + 2
-    z_hi = printer["toolhead"]["axis_maximum"]["z"] - 2
+    z_lo = printer["toolhead"]["axis_minimum"][2] + 2
+    z_hi = printer["toolhead"]["axis_maximum"][2] - 2
     mix_z = max(z_lo, min(z_hi, z_req))
 
     emit("G90")
