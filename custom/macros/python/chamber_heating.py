@@ -34,17 +34,17 @@ for cycle in range(max_cycles):
         respond_info("Chamber mixing aborted by user")
         RETURN
 
-    if printer[sensor_key].temperature >= chamber_target:
+    if printer[sensor_key]["temperature"] >= chamber_target:
         emit(f"M190 S{bed_target}")
         emit(f"M109 S{hotend_target}")
         emit("TURN_PART_COOLING_FAN_OFF")
         respond_info(f"Chamber reached {round(chamber_target, 1)}C - mixing complete")
         RETURN
 
-    x_min = printer.toolhead.axis_minimum.x
-    x_max = printer.toolhead.axis_maximum.x
-    y_min = printer.toolhead.axis_minimum.y
-    y_max = printer.toolhead.axis_maximum.y
+    x_min = printer["toolhead"]["axis_minimum"]["x"]
+    x_max = printer["toolhead"]["axis_maximum"]["x"]
+    y_min = printer["toolhead"]["axis_minimum"]["y"]
+    y_max = printer["toolhead"]["axis_maximum"]["y"]
     bed_avg = ((x_max - x_min) + (y_max - y_min)) / 2.0
 
     if bed_avg >= 400:
@@ -66,8 +66,8 @@ for cycle in range(max_cycles):
     cy = (y_min + y_max) / 2.0
 
     z_req = float(vars["chamber_printhead_height"])
-    z_lo = printer.toolhead.axis_minimum.z + 2
-    z_hi = printer.toolhead.axis_maximum.z - 2
+    z_lo = printer["toolhead"]["axis_minimum"]["z"] + 2
+    z_hi = printer["toolhead"]["axis_maximum"]["z"] - 2
     mix_z = max(z_lo, min(z_hi, z_req))
 
     emit("G90")
