@@ -1,11 +1,11 @@
 vars = printer["gcode_macro _PRINTER_VARS"]
-chamber_target = float(params.get("TARGET_CHAMBER_TEMP", vars.default_chamber_target))
+chamber_target = float(params.get("TARGET_CHAMBER_TEMP", vars["default_chamber_target"]))
 bed_target = float(params.get("BED_TEMP", 105))
-hotend_target = float(params.get("EXTRUDER_TEMP", vars.default_chamber_assist_extruder_temp))
+hotend_target = float(params.get("EXTRUDER_TEMP", vars["default_chamber_assist_extruder_temp"]))
 pattern = params.get("PATTERN", "auto").lower()
 interval_s = float(params.get("INTERVAL_S", 2))
 
-sensor_name = vars.chamber_sensor_name
+sensor_name = vars["chamber_sensor_name"]
 sensor_key = f"temperature_sensor {sensor_name}"
 
 if chamber_target <= 0 or sensor_key not in printer:
@@ -17,11 +17,11 @@ respond_info(f"Chamber heat: pattern={pattern}, target={chamber_target}C")
 emit(f"M140 S{bed_target}")
 emit(f"M104 S{hotend_target}")
 
-z_speed = int(float(vars.z_travel_speed) * 60)
+z_speed = int(float(vars["z_travel_speed"]) * 60)
 emit("CHAMBER_FANS_ON")
 emit("G90")
-emit(f"G1 Z{float(vars.chamber_printhead_height)} F{z_speed}")
-emit(f"M106 S{int(255 * float(vars.chamber_printhead_fan_speed))}")
+emit(f"G1 Z{float(vars['chamber_printhead_height'])} F{z_speed}")
+emit(f"M106 S{int(255 * float(vars['chamber_printhead_fan_speed']))}")
 set_gcode_variable("TA_CHAMBER_STATE", "stop", 0)
 
 wait_moves()
@@ -29,7 +29,7 @@ wait_moves()
 max_cycles = 500
 
 for cycle in range(max_cycles):
-    if int(printer["gcode_macro TA_CHAMBER_STATE"].stop) == 1:
+    if int(printer["gcode_macro TA_CHAMBER_STATE"]["stop"]) == 1:
         emit("TURN_PART_COOLING_FAN_OFF")
         respond_info("Chamber mixing aborted by user")
         RETURN
@@ -48,13 +48,13 @@ for cycle in range(max_cycles):
     bed_avg = ((x_max - x_min) + (y_max - y_min)) / 2.0
 
     if bed_avg >= 400:
-        move_speed_mmps = float(vars.chamber_move_speed_fast)
+        move_speed_mmps = float(vars["chamber_move_speed_fast"])
         bed_margin = 40
     elif bed_avg >= 300:
-        move_speed_mmps = float(vars.chamber_move_speed_medium)
+        move_speed_mmps = float(vars["chamber_move_speed_medium"])
         bed_margin = 30
     else:
-        move_speed_mmps = float(vars.chamber_move_speed_slow)
+        move_speed_mmps = float(vars["chamber_move_speed_slow"])
         bed_margin = 20
 
     move_speed = int(move_speed_mmps * 60)
@@ -65,7 +65,7 @@ for cycle in range(max_cycles):
     cx = (x_min + x_max) / 2.0
     cy = (y_min + y_max) / 2.0
 
-    z_req = float(vars.chamber_printhead_height)
+    z_req = float(vars["chamber_printhead_height"])
     z_lo = printer.toolhead.axis_minimum.z + 2
     z_hi = printer.toolhead.axis_maximum.z - 2
     mix_z = max(z_lo, min(z_hi, z_req))

@@ -1,0 +1,1 @@
+When rolling back a multi-system change, revert ALL systems touched — not just the primary target. Enumerate every host/service/config modified during execution and restore each one. Don't wait for the user to remind you that you forgot a system.
