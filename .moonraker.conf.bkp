@@ -37,14 +37,6 @@ origin = https://github.com/kyleisah/Klipper-Adaptive-Meshing-Purging.git
 managed_services = klipper
 primary_branch = main
 
-[update_manager DynamicMacros]
-type = git_repo
-path = /home/pi/DynamicMacros
-origin = https://github.com/3DCoded/DynamicMacros.git
-primary_branch = main
-is_system_service = False
-install_script = install.sh
-
 [update_manager beacon]
 type = git_repo
 channel = dev
@@ -92,6 +84,15 @@ origin = https://github.com/anonoei/klipper_auto_speed.git
 primary_branch = main
 install_script = install.sh
 managed_services = klipper
+
+[webcam nocturne]
+location = printer
+icon = mdiPrinter3d
+enabled = True
+service = mjpegstreamer-adaptive
+target_fps = 15
+stream_url = /webcam/?action=stream
+snapshot_url = /webcam/?action=snapshot
 
 [update_manager mainsail]
 path = /home/pi/mainsail
