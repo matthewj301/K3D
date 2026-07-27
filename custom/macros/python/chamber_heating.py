@@ -4,6 +4,7 @@ bed_target = float(params.get("BED_TEMP", 105))
 hotend_target = float(params.get("EXTRUDER_TEMP", vars["default_chamber_assist_extruder_temp"]))
 pattern = params.get("PATTERN", "auto").lower()
 interval_s = float(params.get("INTERVAL_S", 2))
+start_delta = float(params.get("START_DELTA", vars["chamber_start_delta"]))
 
 sensor_name = vars["chamber_sensor_name"]
 sensor_key = f"temperature_sensor {sensor_name}"
@@ -34,11 +35,11 @@ else:
             respond_info("Chamber mixing aborted by user")
             break
 
-        if printer[sensor_key]["temperature"] >= chamber_target:
+        if printer[sensor_key]["temperature"] >= chamber_target - start_delta:
             emit(f"M190 S{bed_target}")
             emit(f"M109 S{hotend_target}")
             emit("TURN_PART_COOLING_FAN_OFF")
-            respond_info(f"Chamber reached {round(chamber_target, 1)}C - mixing complete")
+            respond_info(f"Chamber reached {round(printer[sensor_key]['temperature'], 1)}C (target {round(chamber_target, 1)}C) - mixing complete")
             reached = True
             break
 
@@ -114,4 +115,4 @@ else:
 
     if not reached and cycle == max_cycles - 1:
         emit("TURN_PART_COOLING_FAN_OFF")
-        respond_info(f"Chamber heating exceeded {max_cycles} cycles without reaching {chamber_target}C - aborting")
+        respond_info(f"Chamber heating exceeded {max_cycles} cycles without reaching {chamber_target}C - continuing with print")
