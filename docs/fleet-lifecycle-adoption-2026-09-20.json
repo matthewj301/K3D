@@ -51,7 +51,14 @@
     "EXTRUDER_TEMP alias on TA_CHAMBER_HEAT"
   ],
   "pending": [
-    "SSH host and installed firmware/include verification",
     "reload and MMU/non-MMU/cancel/timeout/thermal qualification"
-  ]
+  ],
+  "installed_syntax": {
+    "host": "pi@192.168.30.102",
+    "kalico": "v2026.05.00-4-g29e8ef41",
+    "python": "3.11.2",
+    "jinja": "3.1.6",
+    "result": "71 proposed templates compile through installed interpreter; no runtime macro execution"
+  },
+  "live_comparison": "Live printer.cfg and custom files match baseline356df8d; checkout clean, printer idle/complete; no reload or checkout mutation."
 }
