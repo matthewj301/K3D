@@ -14,6 +14,9 @@ elif "z_tilt" in printer["configfile"]["settings"] or "z_tilt_ng" in printer["co
 else:
   emit('RESPOND MSG="No gantry leveling module detected - skipping."')
 if has_beacon:
+  # Leveling can shift Z beyond Beacon PROBE contact's fixed -2 mm endpoint.
+  # Re-establish contact Z=0 before the wipe's first contact probe.
+  emit("G28 Z METHOD=CONTACT CALIBRATE=0")
   # Wipe the nozzle and take the authoritative Z=0 home BEFORE meshing.
   # WIPE_NOZZLE contact-probes at the front of the bed (Y=3), which is
   # outside the mesh region (mesh_min Y=30). If a mesh were active, the
