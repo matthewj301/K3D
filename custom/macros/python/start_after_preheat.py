@@ -41,7 +41,10 @@ else:
   emit("PICK_PARK_LOCATION")
 extruder_cfg = printer["configfile"]["settings"].get("extruder", {})
 if extruder_cfg.get("control", "") == "mpc":
-  emit(f'_SET_MPC_MATERIAL MATERIAL="{mat}"')
+  if 'FILAMENT_DENSITY' in params:
+    emit(f'_SET_MPC_MATERIAL MATERIAL="{mat}" FILAMENT_DENSITY={float(params["FILAMENT_DENSITY"])}')
+  else:
+    emit(f'_SET_MPC_MATERIAL MATERIAL="{mat}"')
 emit(f"M109 S{hotend_temp}")
 commands = printer['gcode']['commands']
 if 'T0' in commands and ('mmu' not in printer or printer['mmu']['enabled']):
